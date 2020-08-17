@@ -21,15 +21,16 @@ void moveForward() {
   digitalWrite(rev1, LOW);
   digitalWrite(fwd2, HIGH);
   digitalWrite(rev2, LOW);
+  
   for (int i = 0; i < 256; i++) {
     analogWrite(spd1, i);
     analogWrite(spd2, i);
     delay(200);
   }
-  for (int i = 255; i > 0; i-) {
+  for (int i = 255; i > 0; i-=10) {
     analogWrite(spd1, i);
     analogWrite(spd2, i);
-    delay(200);
+    delay(1000);
   }
   
   digitalWrite(fwd1, LOW);
@@ -48,7 +49,7 @@ void moveBackward() {
     analogWrite(spd2, i);
     delay(200);
   }
-  for (int i = 255; i > 0; i-) {
+  for (int i = 255; i > 0; i--) {
     analogWrite(spd1, i);
     analogWrite(spd2, i);
     delay(200);
