@@ -15,8 +15,6 @@ MPU6050 mpu;
 
 int16_t accY, accZ, gyroX, gyroRate;
 float accAngle, gyroAngle=0, currentAngle, previousAngle=0;
-float tau=0.075;
-float a=0.0;
 unsigned long curTime, prevTime=0, loopTime,dt;
 
 void setup() {
@@ -29,9 +27,9 @@ void setup() {
 }
 
 void loop() {
-  dt = loopTime/1000;
   curTime = millis();
   loopTime = curTime - prevTime;
+  dt = loopTime/1000.0;
   prevTime = curTime;
 
   gyroX = mpu.getRotationX();
@@ -43,11 +41,17 @@ void loop() {
 
   accAngle = atan2(accY, accZ)*RAD_TO_DEG;
   currentAngle = 0.9934 * (previousAngle + (float)gyroRate*dt) + 0.0066 * (accAngle);
-  Serial.print("accelormeter angle ");
-  Serial.print(accAngle);
-  Serial.print(" gyroscope angle ");
-  Serial.print(gyroAngle);
-  Serial.print(" calculated angle ");
-  Serial.println(currentAngle);
+  Serial.print("time\t");
+  Serial.print(loopTime, 6);
+  Serial.print("\tdt\t");
+  Serial.print(dt, 6);
+  Serial.print("\t\taccelormeter angle\t");
+  Serial.print(accAngle, 6);
+  Serial.print("\t\tgyroscope rate\t");
+  Serial.print(gyroRate, 6);
+  Serial.print("\tgyroscope angle\t");
+  Serial.print(gyroAngle, 6);
+  Serial.print("\t\tcalculated angle\t");
+  Serial.println(currentAngle, 6);
   previousAngle = currentAngle;
 }
